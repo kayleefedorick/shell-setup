@@ -1,0 +1,12 @@
+[submodule ".shell"]
+	path = .shell
+	url = https://github.com/matschaffer/oh-my-zsh-custom
+[submodule "zsh-history-substring-search"]
+	path = zsh-history-substring-search
+	url = https://github.com/zsh-users/zsh-history-substring-search
+[submodule "zsh-bat"]
+	path = zsh-bat
+	url = https://github.com/fdellwing/zsh-bat
+[submodule "zsh-you-should-use"]
+	path = zsh-you-should-use
+	url = https://github.com/MichaelAquilina/zsh-you-should-use.git
