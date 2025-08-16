@@ -1,11 +1,12 @@
-Personal Zsh + Oh My Zsh setup for Debian/Ubuntu systems.
-This installer sets up Zsh as your login shell, installs Oh My Zsh, Python 3.11 tooling, pipx-managed CLI tools, and copies my shell configs/plugins to your home directory.
+# Personal Zsh + Oh My Zsh Setup for Debian/Ubuntu
+
+This repository installs a **custom Zsh environment** tuned for fast workflows on Debian/Ubuntu systems in my homelab. The installer makes Zsh your login shell, installs Oh My Zsh plus useful plugins, sets up Python 3.11 tooling and useful CLI utilities (e.g. `thefuck`, `eza`, `du-dust`), and copies a curated set of configs, plugins, aliases, and keybindings into your home directory.
+
+All command output is saved to `install.log` while the script shows only light progress messages. **Review `config.sh` before running** - it changes your shell and will overwrite `~/.zshrc`.
 
 ---
 
 ## One-liner Install
-
-> **Warning:** Review `config.sh` first - this will change your shell, install software, and overwrite `~/.zshrc`.
 
 ```bash
 git clone --recurse-submodules https://github.com/kayleefedorick/shell-setup && \
@@ -18,54 +19,69 @@ chmod +x config.sh install-open-interpreter.sh && \
 
 ## What This Does
 
-1. **Updates and installs packages via `apt`:**
+### Base System Setup
 
-   * Python3 tooling, pipx, zsh, curl, lsb-release, wget
-   * Adds Deadsnakes PPA to install Python 3.11 + dev/venv/distutils packages
+* Updates apt and installs Python 3.11 tooling, pipx, zsh, curl, wget, lsb-release
+* Adds Deadsnakes PPA for Python 3.11 dev/venv/distutils
 
-2. **Sets Zsh as the default shell**
+### Default Shell
 
-   ```bash
-   chsh -s /bin/zsh
-   ```
+* Sets Zsh as the login shell: `sudo usermod --shell /bin/zsh $USER`
+* Logout/login required
 
-   * Log out and back in for it to take effect.
+### Oh My Zsh + Plugins
 
-3. **Installs Oh My Zsh and plugins**
+* Unattended install of Oh My Zsh if not already present
+* Plugins included: `history-substring-search`, `zsh-bat`, `you-should-use`, `git`, `copyfile`, `copypath`, `web-search`, `thefuck`, `extract`, `sudo`
+* Syntax highlighting (`zsh-syntax-highlighting`) and Esc-1 shortcut for mouse cursor positioning (rxvt-like) via `.shell/mouse.zsh`
 
-   * Oh My Zsh (unattended install)
-   * zsh-syntax-highlighting
-   * Custom plugins:
+### CLI Tools
 
-     * `zsh-history-substring-search`
-     * `zsh-bat`
-     * `zsh-you-should-use`
+* `thefuck` via pipx (Python 3.11 venv)
+* `eza` via `apt`
+* `du-dust` via `deb-get`
 
-4. **Installs CLI tools**
+### Open Interpreter
 
-   * `thefuck` via pipx (Python 3.11 venv)
-   * `eza` via `apt`
-   * `du-dust` via `deb-get`
+* Creates `~/open-interpreter` virtualenv
+* Installs `open-interpreter` for local LLM coding assistance
 
-5. **Runs Open Interpreter setup**
+### Custom Environment (`.zshrc`)
 
-   * Creates `~/open-interpreter` virtualenv
-   * Installs `open-interpreter`
-6. **Copies**
+The `.zshrc` sets up a **custom environment**:
+* PATH includes `$HOME/bin` and `$HOME/.local/bin`
+* Loads Oh My Zsh with `robbyrussell` theme (customizable)
+* Custom plugins and bindings: history search, mouse support, command shortcuts
+* Aliases for productivity and aesthetics:
+  * `ls` → `eza --icons`
+  * `tree` → `eza -la --icons --tree --total-size --hyperlink`
+  * `du` → `dust -r`
+  * `howdoi` and `howdoi-windows` scripts
+* `erase()` function to clear previous terminal output
+* thefuck aliases automatically loaded
 
-  * `.shell` → `~/.shell` (contains my `oh-my-zsh-custom` directory)
-  * `zsh-history-substring-search` and `zsh-bat` → `~/.oh-my-zsh/custom/plugins/`
-  * `.zshrc` → `~/.zshrc`
-  * `howdoi` scripts for quick coding help via local LLM → `~/`
+### Copies Configs
 
-## Files of interest
+* `.shell` → `~/.shell`
+* Plugins → `~/.oh-my-zsh/custom/plugins/`
+* `.zshrc` → `~/.zshrc`
+* `howdoi` scripts → `~/`
 
-* `config.sh` - main installer (run this)
+---
+
+## Files of Interest
+
+* `config.sh` - main installer - run this
+* `install-open-interpreter.sh` - Open Interpreter setup
+* `.zshrc` - defines the custom environment and aliases
+* `install.log` - captures full installer output
+
+---
 
 ## Notes
 
-* **This will overwrite your `~/.zshrc`** and copy files into your home directory.
-* Requires `sudo` for installs and `chsh` to change your login shell.
+* **Overwrites your `~/.zshrc`** and copies files into your home directory.
+* Requires `sudo` for installs and changing login shell.
 * Intended for Debian/Ubuntu-based distributions only.
-* Always inspect `config.sh` before running on any machine.
-* Change DEFAULT_USER in .zshrc as needed
+* Always inspect `config.sh` before running.
+* Adjust `DEFAULT_USER` in `.zshrc` as needed.
