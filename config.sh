@@ -22,10 +22,13 @@ echo "[*] Installing base packages..." >&3
 sudo apt install -y software-properties-common curl wget lsb-release zsh
 echo "[✓] Base packages installed." >&3
 
-echo "[*] Adding deadsnakes repo..." >&3
-sudo add-apt-repository -y ppa:deadsnakes/ppa
-sudo apt update
-echo "[✓] Repo added." >&3
+echo "[*] Adding Deadsnakes PPA (Ubuntu only)..." >&3
+if sudo add-apt-repository -y ppa:deadsnakes/ppa 2>/dev/null; then
+    sudo apt update
+    echo "[✓] Deadsnakes PPA added." >&3
+else
+    echo "[!] Could not add Deadsnakes PPA; assuming Debian." >&3
+fi
 
 echo "[*] Installing Python 3.11 and dev tools..." >&3
 sudo apt install -y \
@@ -53,8 +56,11 @@ pipx install --python /usr/bin/python3.11 thefuck
 echo "[✓] Zsh plugins installed." >&3
 
 echo "[*] Installing Open Interpreter..." >&3
-bash install-open-interpreter.sh
-echo "[✓] Open Interpreter installed." >&3
+if bash install-open-interpreter.sh; then
+    echo "[✓] Open Interpreter installed." >&3
+else
+    echo "[!] Open Interpreter installation failed; continuing." >&3
+fi
 
 echo "[*] Setting up eza repo..." >&3
 sudo mkdir -p /etc/apt/keyrings
