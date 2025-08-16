@@ -99,8 +99,10 @@ cp -r ./zsh-history-substring-search ~/.oh-my-zsh/custom/plugins/zsh-history-sub
 cp -r ./zsh-you-should-use ~/.oh-my-zsh/custom/plugins/you-should-use
 cp -r ./zsh-bat ~/.oh-my-zsh/custom/plugins/zsh-bat
 cp ./.zshrc ~
-cp ./howdoi.* ~
-cp ./howdoi-windows.* ~
+if [ "$SKIP_OPEN_INTERPRETER" = false ]; then
+    cp ./howdoi.* ~
+    cp ./howdoi-windows.* ~
+fi
 echo "[✓] Configs copied." >&3
 
 echo "[✓] Installation complete. See $LOGFILE for details." >&3
