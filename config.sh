@@ -3,6 +3,15 @@ set -euo pipefail
 
 # --- Config ---
 LOGFILE="install.log"
+SKIP_OPEN_INTERPRETER=false
+
+# --- Parse arguments ---
+for arg in "$@"; do
+    case "$arg" in
+        --no-open-interpreter) SKIP_OPEN_INTERPRETER=true ;;
+        *) ;;
+    esac
+done
 
 # Save real terminal stdout for progress messages
 exec 3>&1
@@ -55,11 +64,16 @@ pipx uninstall thefuck || true
 pipx install --python /usr/bin/python3.11 thefuck
 echo "[✓] Zsh plugins installed." >&3
 
-echo "[*] Installing Open Interpreter..." >&3
-if bash install-open-interpreter.sh; then
-    echo "[✓] Open Interpreter installed." >&3
+# Open Interpreter install
+if [ "$SKIP_OPEN_INTERPRETER" = false ]; then
+    echo "[*] Installing Open Interpreter..." >&3
+    if bash install-open-interpreter.sh; then
+        echo "[✓] Open Interpreter installed." >&3
+    else
+        echo "[!] Open Interpreter installation failed; continuing." >&3
+    fi
 else
-    echo "[!] Open Interpreter installation failed; continuing." >&3
+    echo "[=] Skipping Open Interpreter installation." >&3
 fi
 
 echo "[*] Setting up eza repo..." >&3
