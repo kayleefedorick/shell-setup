@@ -94,7 +94,7 @@ deb-get install du-dust
 echo "[✓] deb-get + du-dust installed." >&3
 
 echo "[*] Copying configs and plugins..." >&3
-sudo apt install bat
+sudo apt install -y bat
 cp -r ./.shell ~/.shell
 cp -r ./zsh-history-substring-search ~/.oh-my-zsh/custom/plugins/zsh-history-substring-search
 cp -r ./zsh-you-should-use ~/.oh-my-zsh/custom/plugins/you-should-use
