@@ -27,6 +27,8 @@ chmod +x config.sh install-open-interpreter.sh && \
 ./config.sh --no-open-interpreter
 ```
 
+You can install to a user other than the current user by adding `--user`
+
 ---
 
 ## What This Does
