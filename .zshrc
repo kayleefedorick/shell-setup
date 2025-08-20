@@ -1,3 +1,9 @@
+# Show user/host name
+export SHOW_USER=true
+if [[ "$SHOW_USER" == "true" ]]; then
+  RPROMPT="%F{cyan}(%F{green}%n%F{cyan}@%F{yellow}%m%F{cyan})"
+fi
+
 # Default user
 export DEFAULT_USER="kaylee"
 
